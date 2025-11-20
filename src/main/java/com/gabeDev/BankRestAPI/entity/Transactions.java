@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Table(name = "transactions")
-public class TransactionsEntity {
+public class Transactions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +30,9 @@ public class TransactionsEntity {
 
     @ManyToOne
     @JoinColumn(name = "sender_wallet_id", nullable = false)
-    private WalletEntity senderWallet;
+    private Wallet senderWallet;
 
     @ManyToOne
     @JoinColumn(name = "receiver_wallet_id", nullable = false)
-    private WalletEntity receiverWallet;
+    private Wallet receiverWallet;
 }

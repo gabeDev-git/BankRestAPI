@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "wallet")
-public class WalletEntity {
+public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class WalletEntity {
 
     @OneToOne
     @JoinColumn(name = "holder_id")
-    private AccountHolderEntity holder;
+    private AccountHolder holder;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

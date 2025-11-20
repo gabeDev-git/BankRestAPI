@@ -10,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 @Entity
 @AllArgsConstructor
@@ -18,7 +17,7 @@ import java.time.Period;
 @Getter
 @Setter
 @Table(name = "account_holder")
-public class AccountHolderEntity {
+public class AccountHolder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +46,6 @@ public class AccountHolderEntity {
     private LocalDate birthDate;
 
     @OneToOne(mappedBy = "holder")
-    private WalletEntity wallet;
+    private Wallet wallet;
 
 }
