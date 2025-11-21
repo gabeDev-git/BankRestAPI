@@ -1,5 +1,6 @@
 package com.gabeDev.BankRestAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class Wallet {
 
     @OneToOne
     @JoinColumn(name = "holder_id")
+    @JsonBackReference
     private AccountHolder holder;
 
     @CreatedDate
