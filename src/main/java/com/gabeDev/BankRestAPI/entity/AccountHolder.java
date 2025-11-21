@@ -1,5 +1,6 @@
 package com.gabeDev.BankRestAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,13 +30,13 @@ public class AccountHolder {
     @Column(name = "name", nullable = false)
     private String fullName;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "document", nullable = false)
+    @Column(name = "document", nullable = false, unique = true)
     private String document;
 
     @CreatedDate
@@ -51,6 +52,7 @@ public class AccountHolder {
     private LocalDate birthDate;
 
     @OneToOne(mappedBy = "holder")
+    @JsonManagedReference
     private Wallet wallet;
 
 }
