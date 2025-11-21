@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AccountHolderService {
@@ -34,6 +36,8 @@ public class AccountHolderService {
             wallet.setBalance(BigDecimal.valueOf(0));
             wallet.setTransactionsCount(0L);
             wallet.setHolder(holder);
+            wallet.setCreatedAt(LocalDateTime.now());
+            wallet.setUpdatedAt(LocalDateTime.now());
             walletRepo.save(wallet);
             accountHolderRepo.save(holder);
 
@@ -51,5 +55,20 @@ public class AccountHolderService {
             return false;
         }
         return true;
+    }
+
+    public List<AccountHolder> getAllHolders(){
+        return accountHolderRepo.findAll();
+    }
+
+    public AccountHolder findById(Long id){
+        var entity = accountHolderRepo.findById(id);
+
+        if(entity.isPresent()){
+            return entity.get();
+        }
+        else{
+            throw new RuntimeException("Entity not found");
+        }
     }
 }
