@@ -5,14 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@EnableJpaAuditing
 @Table(name = "transactions")
 public class Transactions {
 
@@ -35,4 +39,8 @@ public class Transactions {
     @ManyToOne
     @JoinColumn(name = "receiver_wallet_id", nullable = false)
     private Wallet receiverWallet;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 }

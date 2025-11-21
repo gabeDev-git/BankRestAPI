@@ -1,0 +1,55 @@
+package com.gabeDev.BankRestAPI.service;
+
+import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
+import com.gabeDev.BankRestAPI.dto.AccountHolderResponse;
+import com.gabeDev.BankRestAPI.entity.AccountHolder;
+import com.gabeDev.BankRestAPI.entity.Wallet;
+import com.gabeDev.BankRestAPI.mapper.AccountHolderMapper;
+import com.gabeDev.BankRestAPI.repository.AccountHolderRepo;
+import com.gabeDev.BankRestAPI.repository.WalletRepo;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Service
+public class AccountHolderService {
+
+    private final AccountHolderRepo accountHolderRepo;
+    private final WalletRepo walletRepo;
+
+    public AccountHolderService(AccountHolderRepo accountHolderRepo, WalletRepo walletRepo) {
+        this.accountHolderRepo = accountHolderRepo;
+        this.walletRepo = walletRepo;
+    }
+
+    @Transactional
+    public AccountHolderResponse create(AccountHolderPostRequest request) {
+        AccountHolder holder = AccountHolderMapper.toEntity(request);
+
+        if(validAge(holder)) {
+
+            Wallet wallet = new Wallet();
+            wallet.setBalance(BigDecimal.valueOf(0));
+            wallet.setTransactionsCount(0L);
+            wallet.setHolder(holder);
+            walletRepo.save(wallet);
+            accountHolderRepo.save(holder);
+
+            return new AccountHolderResponse(holder.getId(), wallet.getId(), holder.getFullName(),
+                    holder.getEmail(), holder.getBirthDate(), holder.getCreatedAt(), holder.getUpdatedAt());
+        }
+        else{
+            throw new RuntimeException("User must be at least 18 years old to register");
+        }
+    }
+
+    public boolean validAge(AccountHolder holder){
+        LocalDate requiredDate = LocalDate.now().minusYears(18);
+        if(holder.getBirthDate().isAfter(requiredDate)){
+            return false;
+        }
+        return true;
+    }
+}

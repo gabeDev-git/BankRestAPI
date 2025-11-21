@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@EnableJpaAuditing
 @Table(name = "account_holder")
 public class AccountHolder {
 
@@ -32,13 +35,15 @@ public class AccountHolder {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "balance", nullable = false)
-    private BigDecimal balance;
+    @Column(name = "document", nullable = false)
+    private String document;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
