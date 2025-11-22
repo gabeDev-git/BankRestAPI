@@ -61,13 +61,7 @@ public class AccountHolderService {
     }
 
     public AccountHolder findById(Long id){
-        var entity = accountHolderRepo.findById(id);
-
-        if(entity.isPresent()){
-            return entity.get();
-        }
-        else{
-            throw new RuntimeException("Entity not found");
-        }
+        return accountHolderRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Entity not found"));
     }
 }
