@@ -27,7 +27,7 @@ public class AccountHolderService {
     }
 
     @Transactional
-    public AccountHolderResponse create(AccountHolderPostRequest request) {
+    public AccountHolder create(AccountHolderPostRequest request) {
         AccountHolder holder = AccountHolderMapper.toEntity(request);
 
         if(validAge(holder)) {
@@ -38,11 +38,10 @@ public class AccountHolderService {
             wallet.setHolder(holder);
             wallet.setCreatedAt(LocalDateTime.now());
             wallet.setUpdatedAt(LocalDateTime.now());
+            holder.setWallet(wallet);
             walletRepo.save(wallet);
-            accountHolderRepo.save(holder);
 
-            return new AccountHolderResponse(holder.getId(), wallet.getId(), holder.getFullName(),
-                    holder.getEmail(), holder.getBirthDate(), holder.getCreatedAt(), holder.getUpdatedAt());
+            return accountHolderRepo.save(holder);
         }
         else{
             throw new RuntimeException("User must be at least 18 years old to register");
