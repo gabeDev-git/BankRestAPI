@@ -24,20 +24,19 @@ public class Transactions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sender_id", nullable = false)
-    private Long senderId;
-    @Column(name = "receiver_id", nullable = false)
-    private Long receiverId;
+    @Enumerated(EnumType.STRING)
+            @Column(name = "transactions_type", nullable = false)
+    TransactionsType type;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
     @ManyToOne
-    @JoinColumn(name = "sender_wallet_id", nullable = false)
+    @JoinColumn(name = "sender_wallet_id")
     private Wallet senderWallet;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_wallet_id", nullable = false)
+    @JoinColumn(name = "receiver_wallet_id")
     private Wallet receiverWallet;
 
     @CreatedDate

@@ -36,8 +36,9 @@ public class AccountHolderController {
 
     @PostMapping("/create")
     public ResponseEntity<AccountHolderResponse> create(@Valid @RequestBody AccountHolderPostRequest request){
+        AccountHolder holder = accountHolderService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body((accountHolderService.create(request)));
+                .body(AccountHolderMapper.toResponse(holder));
     }
 
     @GetMapping("/{id}")
