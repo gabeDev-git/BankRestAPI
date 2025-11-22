@@ -2,7 +2,6 @@ package com.gabeDev.BankRestAPI.service;
 
 import com.gabeDev.BankRestAPI.entity.Wallet;
 import com.gabeDev.BankRestAPI.repository.WalletRepo;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
