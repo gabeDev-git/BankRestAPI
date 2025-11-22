@@ -1,0 +1,39 @@
+package com.gabeDev.BankRestAPI.service;
+
+import com.gabeDev.BankRestAPI.entity.Wallet;
+import com.gabeDev.BankRestAPI.repository.WalletRepo;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+
+@Service
+public class WalletService {
+
+    private final WalletRepo walletRepo;
+
+    public WalletService(WalletRepo walletRepo){
+        this.walletRepo = walletRepo;
+    }
+
+    public Wallet findById(Long id){
+        return walletRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Entity not found"));
+    }
+
+    public Wallet deposit(BigDecimal amount, Long walletId){
+        var wallet = walletRepo.findById(walletId)
+                .orElseThrow(() -> new RuntimeException("Entity not found"));
+
+        wallet.setBalance(wallet.getBalance().add(amount));
+        return walletRepo.save(wallet);
+    }
+
+    public Wallet debit(BigDecimal amount, Long walletId){
+        var wallet = walletRepo.findById(walletId)
+                .orElseThrow(() -> new RuntimeException("Entity not found"));
+
+        wallet.setBalance(wallet.getBalance().subtract(amount));
+        return walletRepo.save(wallet);
+    }
+}
