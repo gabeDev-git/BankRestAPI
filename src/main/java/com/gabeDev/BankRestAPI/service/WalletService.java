@@ -5,6 +5,7 @@ import com.gabeDev.BankRestAPI.repository.WalletRepo;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 public class WalletService {
@@ -25,6 +26,8 @@ public class WalletService {
                 .orElseThrow(() -> new RuntimeException("Entity not found"));
 
         wallet.setBalance(wallet.getBalance().add(amount));
+        wallet.setUpdatedAt(LocalDateTime.now());
+        wallet.setTransactionsCount(wallet.getTransactionsCount() + 1);
         return walletRepo.save(wallet);
     }
 
@@ -33,6 +36,8 @@ public class WalletService {
                 .orElseThrow(() -> new RuntimeException("Entity not found"));
 
         wallet.setBalance(wallet.getBalance().subtract(amount));
+        wallet.setUpdatedAt(LocalDateTime.now());
+        wallet.setTransactionsCount(wallet.getTransactionsCount() + 1);
         return walletRepo.save(wallet);
     }
 }
