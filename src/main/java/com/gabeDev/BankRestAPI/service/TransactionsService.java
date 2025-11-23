@@ -32,4 +32,24 @@ public class TransactionsService {
         Wallet receiverWallet = walletService.deposit(request.amount(), request.receiverId());
         return TransactionsMapper.toEntity(request, null, receiverWallet);
     }
+
+    @Transactional
+    public Transactions debit(TransactionsPostRequest request){
+        if(request.type() != TransactionsType.DEBIT){
+            throw new RuntimeException(("Transaction type is not DEBIT"));
+        }
+        Wallet senderWallet = walletService.debit(request.amount(), request.senderId());
+        return TransactionsMapper.toEntity(request, senderWallet, null);
+    }
+
+    @Transactional
+    public Transactions transfer(TransactionsPostRequest request){
+        if(request.type() != TransactionsType.TRANSFER){
+            throw new RuntimeException(("Transactions type is not TRANSFER"));
+        }
+        Wallet receiverWallet = walletService.deposit(request.amount(), request.receiverId());
+        Wallet senderWallet = walletService.debit(request.amount(), request.senderId());
+
+        return TransactionsMapper.toEntity(request, senderWallet, receiverWallet);
+    }
 }
