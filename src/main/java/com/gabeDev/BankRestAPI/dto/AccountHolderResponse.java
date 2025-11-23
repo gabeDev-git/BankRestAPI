@@ -1,9 +1,9 @@
 package com.gabeDev.BankRestAPI.dto;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public record AccountHolderResponse(Long holderId, Long walletId, String fullName, String email,
-                                    LocalDate birthDate, LocalDateTime createdAt,
-                                    LocalDateTime updatedAt) {
+                                    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime createdAt,
+                                    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime updatedAt) {
 }

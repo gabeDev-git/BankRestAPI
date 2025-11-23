@@ -23,7 +23,7 @@ public class AccountHolderMapper {
 
     public static AccountHolderResponse toResponse(AccountHolder holder){
         return new AccountHolderResponse(holder.getId(), holder.getWallet().getId(),
-                holder.getFullName(), holder.getEmail(), holder.getBirthDate(),
+                holder.getFullName(), holder.getEmail(),
                 holder.getCreatedAt(), holder.getUpdatedAt());
     }
 }
