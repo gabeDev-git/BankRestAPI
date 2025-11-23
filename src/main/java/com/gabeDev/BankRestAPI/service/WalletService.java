@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class WalletService {
@@ -39,5 +40,9 @@ public class WalletService {
         wallet.setUpdatedAt(LocalDateTime.now());
         wallet.setTransactionsCount(wallet.getTransactionsCount() + 1);
         return walletRepo.save(wallet);
+    }
+
+    public List<Wallet> findAll(){
+        return walletRepo.findAll();
     }
 }
