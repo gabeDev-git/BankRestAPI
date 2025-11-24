@@ -25,6 +25,9 @@ public class WalletService {
     public Wallet deposit(BigDecimal amount, Long walletId){
         var wallet = walletRepo.findById(walletId)
                 .orElseThrow(() -> new RuntimeException("Entity not found"));
+        if(amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Deposit can't be 0 or less");
+        }
 
         wallet.setBalance(wallet.getBalance().add(amount));
         wallet.setUpdatedAt(LocalDateTime.now());
@@ -35,6 +38,9 @@ public class WalletService {
     public Wallet debit(BigDecimal amount, Long walletId){
         var wallet = walletRepo.findById(walletId)
                 .orElseThrow(() -> new RuntimeException("Entity not found"));
+        if(wallet.getBalance().compareTo(amount) < 0 || amount.compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Insufficient balance or invalid amount");
+        }
 
         wallet.setBalance(wallet.getBalance().subtract(amount));
         wallet.setUpdatedAt(LocalDateTime.now());
@@ -45,4 +51,5 @@ public class WalletService {
     public List<Wallet> findAll(){
         return walletRepo.findAll();
     }
+
 }
