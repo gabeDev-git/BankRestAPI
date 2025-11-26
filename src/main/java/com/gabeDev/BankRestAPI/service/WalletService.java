@@ -1,6 +1,7 @@
 package com.gabeDev.BankRestAPI.service;
 
 import com.gabeDev.BankRestAPI.entity.Wallet;
+import com.gabeDev.BankRestAPI.exceptions.WalletNotFoundException;
 import com.gabeDev.BankRestAPI.repository.WalletRepo;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class WalletService {
 
     public Wallet findById(Long id){
         return walletRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Entity not found"));
+                .orElseThrow(() -> new WalletNotFoundException(id));
     }
 
     public Wallet deposit(BigDecimal amount, Long walletId){
