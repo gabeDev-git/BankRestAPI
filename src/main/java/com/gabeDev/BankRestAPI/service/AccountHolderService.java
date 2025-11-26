@@ -3,9 +3,10 @@ package com.gabeDev.BankRestAPI.service;
 import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
 import com.gabeDev.BankRestAPI.entity.AccountHolder;
 import com.gabeDev.BankRestAPI.entity.Wallet;
+import com.gabeDev.BankRestAPI.exceptions.AccountHolderNotFoundException;
+import com.gabeDev.BankRestAPI.exceptions.InvalidAgeException;
 import com.gabeDev.BankRestAPI.mapper.AccountHolderMapper;
 import com.gabeDev.BankRestAPI.repository.AccountHolderRepo;
-import com.gabeDev.BankRestAPI.repository.WalletRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,7 @@ public class AccountHolderService {
     @Transactional
     public AccountHolder create(AccountHolderPostRequest request) {
         AccountHolder holder = AccountHolderMapper.toEntity(request);
-
-        if(validAge(holder)) {
+        validAge(holder);
 
             Wallet wallet = new Wallet();
             wallet.setBalance(BigDecimal.valueOf(0));
@@ -41,20 +41,13 @@ public class AccountHolderService {
             wallet.setUpdatedAt(LocalDateTime.now());
             holder.setWallet(wallet);
             holder.setPassword(encoder.encode(holder.getPassword()));
-
             return accountHolderRepo.save(holder);
-        }
-        else{
-            throw new RuntimeException("User must be at least 18 years old to register");
-        }
     }
 
-    public boolean validAge(AccountHolder holder){
-        LocalDate requiredDate = LocalDate.now().minusYears(18);
-        if(holder.getBirthDate().isAfter(requiredDate)){
-            return false;
+    private void validAge(AccountHolder holder){
+        if (holder.getBirthDate().isAfter(LocalDate.now().minusYears(18))) {
+            throw new InvalidAgeException();
         }
-        return true;
     }
 
     public List<AccountHolder> getAllHolders(){
@@ -63,6 +56,6 @@ public class AccountHolderService {
 
     public AccountHolder findById(Long id){
         return accountHolderRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Entity not found"));
+                .orElseThrow(() -> new AccountHolderNotFoundException(id));
     }
 }
