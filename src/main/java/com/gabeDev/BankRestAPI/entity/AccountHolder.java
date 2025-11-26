@@ -51,7 +51,7 @@ public class AccountHolder {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
-    @OneToOne(mappedBy = "holder")
+    @OneToOne(mappedBy = "holder", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonManagedReference
     private Wallet wallet;
 
