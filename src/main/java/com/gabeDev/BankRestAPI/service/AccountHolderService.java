@@ -1,13 +1,13 @@
 package com.gabeDev.BankRestAPI.service;
 
 import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
-import com.gabeDev.BankRestAPI.dto.AccountHolderResponse;
 import com.gabeDev.BankRestAPI.entity.AccountHolder;
 import com.gabeDev.BankRestAPI.entity.Wallet;
 import com.gabeDev.BankRestAPI.mapper.AccountHolderMapper;
 import com.gabeDev.BankRestAPI.repository.AccountHolderRepo;
 import com.gabeDev.BankRestAPI.repository.WalletRepo;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,11 +19,12 @@ import java.util.List;
 public class AccountHolderService {
 
     private final AccountHolderRepo accountHolderRepo;
-    private final WalletRepo walletRepo;
+    private final PasswordEncoder encoder;
 
-    public AccountHolderService(AccountHolderRepo accountHolderRepo, WalletRepo walletRepo) {
+    public AccountHolderService(AccountHolderRepo accountHolderRepo,
+                                PasswordEncoder encoder) {
         this.accountHolderRepo = accountHolderRepo;
-        this.walletRepo = walletRepo;
+        this.encoder = encoder;
     }
 
     @Transactional
@@ -39,7 +40,7 @@ public class AccountHolderService {
             wallet.setCreatedAt(LocalDateTime.now());
             wallet.setUpdatedAt(LocalDateTime.now());
             holder.setWallet(wallet);
-            walletRepo.save(wallet);
+            holder.setPassword(encoder.encode(holder.getPassword()));
 
             return accountHolderRepo.save(holder);
         }
