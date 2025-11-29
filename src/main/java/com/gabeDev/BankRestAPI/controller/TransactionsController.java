@@ -21,16 +21,18 @@ public class TransactionsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Transactions>> findAll(){
+    public ResponseEntity<List<TransactionsResponse>> findAll(){
         List<Transactions> transactionsList = transactionsService.findAll();
-        return ResponseEntity.ok()
-                .body(transactionsList);
+        List<TransactionsResponse> responseList = transactionsList
+                .stream().map(TransactionsMapper::toGenericResponse)
+                .toList();
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transactions> findById(@PathVariable Long id){
-        return ResponseEntity.ok()
-                .body(transactionsService.findById(id));
+    public ResponseEntity<TransactionsResponse> findById(@PathVariable Long id){
+        Transactions transactions = transactionsService.findById(id);
+       return ResponseEntity.ok(TransactionsMapper.toGenericResponse(transactions));
     }
 
     @PostMapping("/debit")
@@ -38,11 +40,13 @@ public class TransactionsController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(TransactionsMapper.toDebitResponse(transactionsService.debit(request)));
     }
+
     @PostMapping("/deposit")
     public ResponseEntity<DepositResponse> deposit(@Valid @RequestBody DepositRequest request){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(TransactionsMapper.toDepositResponse(transactionsService.deposit(request)));
     }
+
     @PostMapping("/transfer")
     public ResponseEntity<TransferResponse> transfer(@Valid @RequestBody TransferRequest request){
         return ResponseEntity.status(HttpStatus.CREATED)

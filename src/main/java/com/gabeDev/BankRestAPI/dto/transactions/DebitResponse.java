@@ -6,7 +6,8 @@ import com.gabeDev.BankRestAPI.entity.TransactionsType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record DebitResponse(Long transactionId, Long senderId, BigDecimal amount,
-                            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime createdAt,
-                            TransactionsType type) {
-}
+public record DebitResponse  (Long transactionId, Long senderWalletId,
+                              String senderName, BigDecimal amount,
+                              @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime createdAt,
+                              TransactionsType type)
+        implements TransactionsResponse {}

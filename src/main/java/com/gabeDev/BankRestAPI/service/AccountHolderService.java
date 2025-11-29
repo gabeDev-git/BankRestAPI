@@ -10,10 +10,7 @@ import com.gabeDev.BankRestAPI.repository.AccountHolderRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,11 +31,7 @@ public class AccountHolderService {
         validAge(holder);
 
             Wallet wallet = new Wallet();
-            wallet.setBalance(BigDecimal.valueOf(0));
-            wallet.setTransactionsCount(0L);
             wallet.setHolder(holder);
-            wallet.setCreatedAt(LocalDateTime.now());
-            wallet.setUpdatedAt(LocalDateTime.now());
             holder.setWallet(wallet);
             holder.setPassword(encoder.encode(holder.getPassword()));
             return accountHolderRepo.save(holder);
