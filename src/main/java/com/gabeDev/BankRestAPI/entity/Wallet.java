@@ -27,7 +27,7 @@ public class Wallet {
     private Long id;
 
     @Column(name = "balance")
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @OneToOne
     @JoinColumn(name = "holder_id")
@@ -36,12 +36,12 @@ public class Wallet {
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name = "transactions_count")
-    private Long transactionsCount;
+    private Long transactionsCount = 0L;
 }
