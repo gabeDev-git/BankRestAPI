@@ -1,8 +1,8 @@
 package com.gabeDev.BankRestAPI.service;
 
-import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderPostRequest;
 
-import com.gabeDev.BankRestAPI.exceptions.InvalidAgeException;
+import com.gabeDev.BankRestAPI.exceptions.account_holder.InvalidAgeException;
 import com.gabeDev.BankRestAPI.repository.AccountHolderRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

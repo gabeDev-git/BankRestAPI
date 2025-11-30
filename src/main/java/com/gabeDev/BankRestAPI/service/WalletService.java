@@ -1,9 +1,9 @@
 package com.gabeDev.BankRestAPI.service;
 
 import com.gabeDev.BankRestAPI.entity.Wallet;
-import com.gabeDev.BankRestAPI.exceptions.InsufficientFundsException;
-import com.gabeDev.BankRestAPI.exceptions.InvalidAmountException;
-import com.gabeDev.BankRestAPI.exceptions.WalletNotFoundException;
+import com.gabeDev.BankRestAPI.exceptions.wallet.InsufficientFundsException;
+import com.gabeDev.BankRestAPI.exceptions.wallet.InvalidAmountException;
+import com.gabeDev.BankRestAPI.exceptions.wallet.WalletNotFoundException;
 import com.gabeDev.BankRestAPI.repository.WalletRepo;
 import org.springframework.stereotype.Service;
 

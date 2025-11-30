@@ -6,6 +6,9 @@ import com.gabeDev.BankRestAPI.dto.transactions.TransferRequest;
 import com.gabeDev.BankRestAPI.entity.Transactions;
 import com.gabeDev.BankRestAPI.entity.TransactionsType;
 import com.gabeDev.BankRestAPI.entity.Wallet;
+import com.gabeDev.BankRestAPI.exceptions.transactions.InvalidTransactionsTypeException;
+import com.gabeDev.BankRestAPI.exceptions.transactions.SameSenderAndReceiverException;
+import com.gabeDev.BankRestAPI.exceptions.transactions.TransactionsNotFoundException;
 import com.gabeDev.BankRestAPI.mapper.TransactionsMapper;
 import com.gabeDev.BankRestAPI.repository.TransactionsRepo;
 import com.gabeDev.BankRestAPI.repository.WalletRepo;
@@ -31,7 +34,7 @@ public class TransactionsService {
     @Transactional
     public Transactions deposit(DepositRequest request){
         if(request.type() != TransactionsType.DEPOSIT){
-            throw new RuntimeException(("Transaction type is not DEPOSIT"));
+            throw new InvalidTransactionsTypeException(TransactionsType.DEPOSIT);
         }
 
         Wallet receiverWallet = walletService.deposit(request.amount(), request.receiverId());
@@ -42,7 +45,7 @@ public class TransactionsService {
     @Transactional
     public Transactions debit(DebitRequest request){
         if(request.type() != TransactionsType.DEBIT){
-            throw new RuntimeException(("Transaction type is not DEBIT"));
+            throw new InvalidTransactionsTypeException(TransactionsType.DEBIT);
         }
 
         Wallet senderWallet = walletService.debit(request.amount(), request.senderId());
@@ -52,10 +55,10 @@ public class TransactionsService {
     @Transactional
     public Transactions transfer(TransferRequest request){
         if(request.type() != TransactionsType.TRANSFER){
-            throw new RuntimeException(("Transactions type is not TRANSFER"));
+            throw new InvalidTransactionsTypeException(TransactionsType.TRANSFER);
         }
         if(request.receiverId().equals(request.senderId())){
-            throw new RuntimeException(("Sender and receiver cannot be the same!"));
+            throw new SameSenderAndReceiverException(request.senderId(), request.receiverId());
         }
 
         Wallet receiverWallet = walletService.deposit(request.amount(), request.receiverId());
@@ -66,7 +69,7 @@ public class TransactionsService {
 
     public Transactions findById(Long id){
         return transactionsRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Entity not found"));
+                .orElseThrow(() -> new TransactionsNotFoundException(id));
     }
 
     public List<Transactions> findAll(){

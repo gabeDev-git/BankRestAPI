@@ -1,6 +1,6 @@
 package com.gabeDev.BankRestAPI.mapper;
 
-import com.gabeDev.BankRestAPI.dto.WalletResponse;
+import com.gabeDev.BankRestAPI.dto.wallet.WalletResponse;
 import com.gabeDev.BankRestAPI.entity.Wallet;
 
 public class WalletMapper {

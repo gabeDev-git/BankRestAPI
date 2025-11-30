@@ -1,8 +1,8 @@
 package com.gabeDev.BankRestAPI.mapper;
 
 
-import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
-import com.gabeDev.BankRestAPI.dto.AccountHolderResponse;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderPostRequest;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderResponse;
 import com.gabeDev.BankRestAPI.entity.AccountHolder;
 import java.time.LocalDateTime;
 

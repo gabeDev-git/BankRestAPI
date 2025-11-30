@@ -1,16 +1,18 @@
 package com.gabeDev.BankRestAPI.service;
 
-import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderPostRequest;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderPutRequest;
 import com.gabeDev.BankRestAPI.entity.AccountHolder;
 import com.gabeDev.BankRestAPI.entity.Wallet;
-import com.gabeDev.BankRestAPI.exceptions.AccountHolderNotFoundException;
-import com.gabeDev.BankRestAPI.exceptions.InvalidAgeException;
+import com.gabeDev.BankRestAPI.exceptions.account_holder.AccountHolderNotFoundException;
+import com.gabeDev.BankRestAPI.exceptions.account_holder.InvalidAgeException;
 import com.gabeDev.BankRestAPI.mapper.AccountHolderMapper;
 import com.gabeDev.BankRestAPI.repository.AccountHolderRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -50,5 +52,27 @@ public class AccountHolderService {
     public AccountHolder findById(Long id){
         return accountHolderRepo.findById(id)
                 .orElseThrow(() -> new AccountHolderNotFoundException(id));
+    }
+
+    public AccountHolder update(Long id, AccountHolderPutRequest request) {
+        var holder = findById(id);
+
+        if (request.fullName() != null && !request.fullName().isBlank()) {
+            holder.setFullName(request.fullName());
+        }
+        if (request.email() != null && !request.email().isBlank()) {
+            holder.setEmail(request.email());
+        }
+        if (request.password() != null && !request.password().isBlank()) {
+            holder.setPassword(encoder.encode(request.password()));
+        }
+
+        holder.setUpdatedAt(LocalDateTime.now());
+        return accountHolderRepo.save(holder);
+    }
+
+    public void deleteById(Long id){
+        var holder = findById(id);
+        accountHolderRepo.deleteById(id);
     }
 }
