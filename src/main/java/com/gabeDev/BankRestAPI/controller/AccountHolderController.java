@@ -1,8 +1,9 @@
 package com.gabeDev.BankRestAPI.controller;
 
 
-import com.gabeDev.BankRestAPI.dto.AccountHolderPostRequest;
-import com.gabeDev.BankRestAPI.dto.AccountHolderResponse;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderPostRequest;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderPutRequest;
+import com.gabeDev.BankRestAPI.dto.account_holder.AccountHolderResponse;
 import com.gabeDev.BankRestAPI.entity.AccountHolder;
 import com.gabeDev.BankRestAPI.mapper.AccountHolderMapper;
 import com.gabeDev.BankRestAPI.service.AccountHolderService;
@@ -43,5 +44,18 @@ public class AccountHolderController {
     public ResponseEntity<AccountHolderResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok()
                 .body(AccountHolderMapper.toResponse(accountHolderService.findById(id)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountHolderResponse> update(@PathVariable Long id, @RequestBody
+                                                        AccountHolderPutRequest request){
+        return ResponseEntity.ok(AccountHolderMapper.toResponse(
+                accountHolderService.update(id, request)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        accountHolderService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
