@@ -1,4 +1,4 @@
-package com.gabeDev.BankRestAPI.exceptions;
+package com.gabeDev.BankRestAPI.exceptions.wallet;
 
 public class WalletNotFoundException extends RuntimeException {
 

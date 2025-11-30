@@ -1,6 +1,6 @@
 package com.gabeDev.BankRestAPI.controller;
 
-import com.gabeDev.BankRestAPI.dto.WalletResponse;
+import com.gabeDev.BankRestAPI.dto.wallet.WalletResponse;
 import com.gabeDev.BankRestAPI.entity.Wallet;
 import com.gabeDev.BankRestAPI.mapper.WalletMapper;
 import com.gabeDev.BankRestAPI.service.WalletService;

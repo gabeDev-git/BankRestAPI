@@ -1,4 +1,4 @@
-package com.gabeDev.BankRestAPI.exceptions;
+package com.gabeDev.BankRestAPI.exceptions.account_holder;
 
 public class AccountHolderNotFoundException extends RuntimeException{
 

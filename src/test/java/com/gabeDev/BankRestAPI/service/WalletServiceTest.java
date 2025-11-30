@@ -3,9 +3,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.gabeDev.BankRestAPI.entity.Wallet;
-import com.gabeDev.BankRestAPI.exceptions.InsufficientFundsException;
-import com.gabeDev.BankRestAPI.exceptions.InvalidAmountException;
-import com.gabeDev.BankRestAPI.exceptions.WalletNotFoundException;
+import com.gabeDev.BankRestAPI.exceptions.wallet.InsufficientFundsException;
+import com.gabeDev.BankRestAPI.exceptions.wallet.InvalidAmountException;
+import com.gabeDev.BankRestAPI.exceptions.wallet.WalletNotFoundException;
 import com.gabeDev.BankRestAPI.repository.WalletRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

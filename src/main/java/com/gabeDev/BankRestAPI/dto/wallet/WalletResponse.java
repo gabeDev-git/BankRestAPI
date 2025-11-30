@@ -1,4 +1,4 @@
-package com.gabeDev.BankRestAPI.dto;
+package com.gabeDev.BankRestAPI.dto.wallet;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
