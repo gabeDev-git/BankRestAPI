@@ -1,4 +1,4 @@
-package com.gabeDev.BankRestAPI.dto;
+package com.gabeDev.BankRestAPI.dto.account_holder;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
